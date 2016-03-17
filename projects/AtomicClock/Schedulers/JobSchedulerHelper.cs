@@ -33,7 +33,7 @@
             jobScheduler.ScheduleJob<ActionJob, TTrigger>(jobActionOptions, triggerOptions);
         }
 
-        public static void ScheduleJob<TTrigger>(this IJobScheduler jobScheduler, Action jobAction, dynamic jobOptions = null, dynamic triggerOptions = null)
+        public static void ScheduleJob<TTrigger>(this IJobScheduler jobScheduler, Action jobAction, dynamic triggerOptions = null)
             where TTrigger : ITrigger
         {
             if (jobScheduler == null)
@@ -42,7 +42,7 @@
             }
 
             Action<dynamic, JobContext> action = (o, c) => { jobAction(); };
-            var jobActionOptions = new ActionJobOptions { Action = action, Options = jobOptions };
+            var jobActionOptions = new ActionJobOptions { Action = action };
             jobScheduler.ScheduleJob<ActionJob, TTrigger>(jobActionOptions, triggerOptions);
         }
     }

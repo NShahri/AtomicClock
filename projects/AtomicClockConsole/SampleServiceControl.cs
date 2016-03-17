@@ -63,14 +63,20 @@
         {
             try
             {
+                // define a job as a class
                 this.jobScheduler.ScheduleJob<SampleJob, RunPeriodically>("Job Sample 1", TimeSpan.FromSeconds(2));
+
+                // define a job as an action
                 this.jobScheduler.ScheduleJob<RunPeriodically>(SampleJob2.DoJob, "Job Sample 2", TimeSpan.FromSeconds(3));
+
+                // scheduling a job inside another job
                 this.jobScheduler.ScheduleJob<RunPeriodically>(SampleJob3.DoJob, "Job Sample 3", TimeSpan.FromSeconds(3));
-                //this.jobScheduler.ScheduleJob<RunPeriodically>((data) => {
-                //    Console.WriteLine("Started: {0} - {1}", data, DateTime.Now);
-                //    Thread.Sleep(2000);
-                //    Console.WriteLine("Done:    {0} - {1}", data, DateTime.Now);
-                //}, "Job Sample 5", TimeSpan.FromSeconds(3));
+
+                // pass data to a job
+                this.jobScheduler.ScheduleJob<RunPeriodically>(SampleJob5.DoJob, "Job Sample 5", TimeSpan.FromSeconds(3));
+
+                // not handled exceptions happens inside the job
+                this.jobScheduler.ScheduleJob<RunPeriodically>(SampleJob6.DoJob, "Job Sample 6", TimeSpan.FromSeconds(3));
             }
             catch (Exception ex)
             {
@@ -93,7 +99,7 @@
 
             try
             {
-                this.jobScheduler = AtomicClockManager.CreateScheduler(1);
+                this.jobScheduler = AtomicClockManager.CreateScheduler(10);
                 AtomicClock.Services.LogManager.LogAdapter += OnLogAdapter;
                 AtomicClock.Services.MetricManager.MetricAapter += OnMetricAapter;
             }
@@ -112,7 +118,7 @@
 
         private static void OnLogAdapter(AtomicClock.Services.LogLevel logLevel, string loggerName, string message, Exception ex)
         {
-            LogManager.GetLogger(loggerName).Log(LogLevel.Debug, ex, message);
+            LogManager.GetLogger(loggerName).Log(logLevel.ToNLogLevel(), ex, message);
         }
     }
 }

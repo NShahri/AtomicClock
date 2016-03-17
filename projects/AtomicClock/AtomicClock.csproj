@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4041E115-8DBD-4613-9A54-6F30676B7567}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AtomicClock</RootNamespace>
+    <AssemblyName>AtomicClock</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AtomicClockManager.cs" />
+    <Compile Include="QueueingPolicies\AllowConcurrentExecutionPolicy.cs" />
+    <Compile Include="QueueingPolicies\QueueingPolicyActivator.cs" />
+    <Compile Include="QueueingPolicies\QueueingPolicyHelper.cs" />
+    <Compile Include="QueueingPolicies\QueueingPolicyInfo.cs" />
+    <Compile Include="QueueingPolicies\IQueueingPolicy.cs" />
+    <Compile Include="Jobs\ActionJob.cs" />
+    <Compile Include="Jobs\ActionJobOptions.cs" />
+    <Compile Include="Jobs\IJob.cs" />
+    <Compile Include="Jobs\JobActivator.cs" />
+    <Compile Include="Contexts\JobContext.cs" />
+    <Compile Include="Jobs\JobInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schedulers\IJobScheduler.cs" />
+    <Compile Include="Contexts\TriggerContext.cs" />
+    <Compile Include="Schedulers\JobSchedulerInfo.cs" />
+    <Compile Include="Schedulers\JobScheduler.cs" />
+    <Compile Include="Schedulers\JobSchedulerHelper.cs" />
+    <Compile Include="Services\EventManager.cs" />
+    <Compile Include="Services\LoggerService.cs" />
+    <Compile Include="Services\LogManager.cs" />
+    <Compile Include="Services\LogLevel.cs" />
+    <Compile Include="Services\MetricManager.cs" />
+    <Compile Include="Services\MetricsTimer.cs" />
+    <Compile Include="Tasks\QueuedTaskScheduler.cs" />
+    <Compile Include="Tasks\CustomizedTask.cs" />
+    <Compile Include="Tasks\CustomizedTaskFactory.cs" />
+    <Compile Include="Tasks\CustomizedTaskScheduler.cs" />
+    <Compile Include="Tasks\ITaskFactory.cs" />
+    <Compile Include="Tasks\ITaskPool.cs" />
+    <Compile Include="Triggers\ITrigger.cs" />
+    <Compile Include="Triggers\TriggerActivator.cs" />
+    <Compile Include="Triggers\RunEveryDayAt.cs" />
+    <Compile Include="Triggers\RunPeriodically.cs" />
+    <Compile Include="Triggers\RunNowTrigger.cs" />
+    <Compile Include="Triggers\TimerBasedTrigger.cs" />
+    <Compile Include="Triggers\TriggerInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AtomicClock.nuspec" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

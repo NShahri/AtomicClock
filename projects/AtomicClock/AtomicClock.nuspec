@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/NShahri/AtomicClock/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/NShahri/AtomicClock</projectUrl>
+    <iconUrl>https://github.com/NShahri/AtomicClock</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Atomic Clock Atom AtomicClock Task Scheduler Timer</tags>
+  </metadata>
+</package>

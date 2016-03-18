@@ -1,4 +1,13 @@
-﻿namespace AtomicClock.WinService
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SampleServiceControl.cs" company="Nima Shahri">
+//   Copyright ©2016. All rights reserved.
+// </copyright>
+// <summary>
+//   Defines the SampleServiceControl type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace AtomicClock.WinService
 {
     using System;
     using System.Collections.Generic;
@@ -9,8 +18,14 @@
 
     using NLog;
 
+    /// <summary>
+    /// The sample service control.
+    /// </summary>
     internal class SampleServiceControl
     {
+        /// <summary>
+        /// The logger.
+        /// </summary>
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
@@ -101,9 +116,8 @@
             {
                 this.jobScheduler = AtomicClockManager.CreateScheduler(10);
                 AtomicClock.Services.LogManager.LogAdapter += OnLogAdapter;
-                AtomicClock.Services.MetricManager.MetricAapter += OnMetricAapter;
+                AtomicClock.Services.MetricManager.MetricAapter += OnMetricAdapter;
             }
-
             catch (Exception ex)
             {
                 Logger.Fatal(ex, "Server initialization failed.");
@@ -111,11 +125,38 @@
             }
         }
 
-        private static void OnMetricAapter(string name, TimeSpan elapsedMilliseconds, IEnumerable<string> tags)
+        /// <summary>
+        /// The on metric adapter.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="elapsedMilliseconds">
+        /// The elapsed milliseconds.
+        /// </param>
+        /// <param name="tags">
+        /// The tags.
+        /// </param>
+        private static void OnMetricAdapter(string name, TimeSpan elapsedMilliseconds, IEnumerable<string> tags)
         {
             // TODO: Use Data dog or ...
         }
 
+        /// <summary>
+        /// The on log adapter.
+        /// </summary>
+        /// <param name="logLevel">
+        /// The log level.
+        /// </param>
+        /// <param name="loggerName">
+        /// The logger name.
+        /// </param>
+        /// <param name="message">
+        /// The message.
+        /// </param>
+        /// <param name="ex">
+        /// The ex.
+        /// </param>
         private static void OnLogAdapter(AtomicClock.Services.LogLevel logLevel, string loggerName, string message, Exception ex)
         {
             LogManager.GetLogger(loggerName).Log(logLevel.ToNLogLevel(), ex, message);

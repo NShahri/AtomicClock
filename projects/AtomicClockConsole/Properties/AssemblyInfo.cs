@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AtomicClock")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("AtomicClock.WinService")]
+[assembly: AssemblyDescription("AtomicClock.WinService")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Xero")]
-[assembly: AssemblyProduct("AtomicClock")]
-[assembly: AssemblyCopyright("Copyright © Xero 2016")]
+[assembly: AssemblyCompany("Nima Shahri")]
+[assembly: AssemblyProduct("AtomicClock.WinService")]
+[assembly: AssemblyCopyright("Copyright ©2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

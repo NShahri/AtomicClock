@@ -1,25 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RunNowTrigger.cs" company="Nima Shahri">
+// <copyright file="QueuingPolicyHelper.cs" company="Nima Shahri">
 //   Copyright ©2016. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the RunNowTrigger type.
+//   The queuing policy helper.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AtomicClock.Triggers
+namespace AtomicClock.QueueingPolicies
 {
+    using System.Linq;
+
     using AtomicClock.Asserts;
     using AtomicClock.Contexts;
     using AtomicClock.Jobs;
 
     /// <summary>
-    /// The run now trigger.
+    /// The queuing policy helper.
     /// </summary>
-    public class RunNowTrigger : ITrigger
+    internal static class QueuingPolicyHelper
     {
         /// <summary>
-        /// The schedule.
+        /// The check all queuing policies.
         /// </summary>
         /// <param name="jobInfo">
         /// The job info.
@@ -27,12 +29,22 @@ namespace AtomicClock.Triggers
         /// <param name="context">
         /// The context.
         /// </param>
-        public void Schedule(IJobInfo jobInfo, TriggerContext context)
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public static bool CheckAllQueuingPolicies(this IJobInfo jobInfo, TriggerContext context)
         {
             ArgumentAssert.NotNull(nameof(jobInfo), jobInfo);
             ArgumentAssert.NotNull(nameof(context), context);
 
-            context.TaskFactory.StartNew(jobInfo);
+            var policies = jobInfo.QueuingPolicies;
+            if (policies == null)
+            {
+                return true;
+            }
+
+            return policies.Select(executionPolicy => executionPolicy.CreateInstance())
+                .All(policy => policy.CheckQueuingPolicy(jobInfo, context.TaskPool));
         }
     }
 }

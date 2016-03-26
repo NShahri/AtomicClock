@@ -1,11 +1,35 @@
-﻿namespace AtomicClock.WinService
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LogHelper.cs" company="Nima Shahri">
+//   Copyright ©2016. All rights reserved.
+// </copyright>
+// <summary>
+//   Defines the LogHelper type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace AtomicClock.WinService
 {
     using System;
 
     using AtomicClock.Services;
 
+    /// <summary>
+    /// The log helper.
+    /// </summary>
     public static class LogHelper
     {
+        /// <summary>
+        /// The to n log level.
+        /// </summary>
+        /// <param name="logLevel">
+        /// The log level.
+        /// </param>
+        /// <returns>
+        /// The <see cref="LogLevel"/>.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// When there is no map defined between AtomicClock.LogLevel and NLog.LogLevel
+        /// </exception>
         public static NLog.LogLevel ToNLogLevel(this LogLevel logLevel)
         {
             switch (logLevel)

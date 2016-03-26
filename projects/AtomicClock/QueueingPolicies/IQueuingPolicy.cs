@@ -1,32 +1,34 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITaskFactory.cs" company="Nima Shahri">
+// <copyright file="IQueuingPolicy.cs" company="Nima Shahri">
 //   Copyright ©2016. All rights reserved.
 // </copyright>
 // <summary>
-//   The TaskFactory interface.
+//   Defines the IQueuingPolicy type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AtomicClock.Tasks
+namespace AtomicClock.QueueingPolicies
 {
-    using System.Threading.Tasks;
-
     using AtomicClock.Jobs;
+    using AtomicClock.Tasks;
 
     /// <summary>
-    /// The TaskFactory interface.
+    /// The QueuingPolicy interface.
     /// </summary>
-    public interface ITaskFactory
+    public interface IQueuingPolicy
     {
         /// <summary>
-        /// The start new.
+        /// The check queuing policy.
         /// </summary>
         /// <param name="jobInfo">
-        /// The job Info.
+        /// The job info.
+        /// </param>
+        /// <param name="taskPool">
+        /// The task pool.
         /// </param>
         /// <returns>
-        /// The <see cref="Task"/>.
+        /// The <see cref="bool"/>.
         /// </returns>
-        Task StartNew(IJobInfo jobInfo);
+        bool CheckQueuingPolicy(IJobInfo jobInfo, ITaskPool taskPool);
     }
 }

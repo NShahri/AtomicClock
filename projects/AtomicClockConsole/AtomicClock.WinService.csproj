@@ -58,6 +58,7 @@
     <Compile Include="Jobs\SampleJob4.cs" />
     <Compile Include="Jobs\SampleJob5.cs" />
     <Compile Include="Jobs\SampleJob6.cs" />
+    <Compile Include="Jobs\SampleJob7.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="SampleServiceControl.cs" />
     <Compile Include="Jobs\SampleJob.cs" />

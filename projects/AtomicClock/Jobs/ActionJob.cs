@@ -2,6 +2,7 @@
 {
     using System;
 
+    using AtomicClock.Asserts;
     using AtomicClock.Contexts;
     using AtomicClock.Services;
 
@@ -13,6 +14,9 @@
 
         public ActionJob(ActionJobOptions options)
         {
+            ArgumentAssert.NotNull(nameof(options), options);
+            options.ValidateAndThrow();
+
             this.options = options;
         }
 

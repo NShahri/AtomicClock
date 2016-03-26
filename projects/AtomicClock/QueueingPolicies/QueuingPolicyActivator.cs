@@ -1,37 +1,33 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="JobActivator.cs" company="Nima Shahri">
+// <copyright file="QueuingPolicyActivator.cs" company="Nima Shahri">
 //   Copyright ©2016. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the JobActivator type.
+//   The queueing policy activator.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AtomicClock.Jobs
+namespace AtomicClock.QueueingPolicies
 {
     using System;
 
-    using AtomicClock.Asserts;
-
     /// <summary>
-    /// The job activator.
+    /// The queuing policy activator.
     /// </summary>
-    internal static class JobActivator
+    internal static class QueuingPolicyActivator
     {
         /// <summary>
         /// The create instance.
         /// </summary>
-        /// <param name="jobInfo">
-        /// The job info.
+        /// <param name="queuingPolicy">
+        /// The queuing policy.
         /// </param>
         /// <returns>
-        /// The <see cref="IJob"/>.
+        /// The <see cref="IQueuingPolicy"/>.
         /// </returns>
-        public static IJob CreateInstance(this IJobInfo jobInfo)
+        public static IQueuingPolicy CreateInstance(this QueuingPolicyInfo queuingPolicy)
         {
-            ArgumentAssert.NotNull(nameof(jobInfo), jobInfo);
-
-            return (IJob)Activator.CreateInstance(jobInfo.JobType, jobInfo.JobOptions);
+            return (IQueuingPolicy)Activator.CreateInstance(queuingPolicy.PolicyType, queuingPolicy.PolicyOptions);
         }
     }
 }

@@ -1,31 +1,34 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ActionJobOptions.cs" company="Nima Shahri">
+// <copyright file="ITriggerInfo.cs" company="Nima Shahri">
 //   Copyright ©2016. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the ActionJobOptions type.
+//   Defines the ITriggerInfo type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AtomicClock.Jobs
+namespace AtomicClock.Triggers
 {
     using System;
 
-    using AtomicClock.Contexts;
-
     /// <summary>
-    /// The action job options.
+    /// The LinkedCollectionCancellationTokenManager interface.
     /// </summary>
-    internal class ActionJobOptions
+    public interface ITriggerInfo
     {
         /// <summary>
-        /// Gets or sets the action.
+        /// Gets the trigger options.
         /// </summary>
-        public Action<dynamic, JobContext> Action { get; set; }
+        dynamic TriggerOptions { get; }
 
         /// <summary>
-        /// Gets or sets the options.
+        /// Gets the trigger type.
         /// </summary>
-        public dynamic Options { get; set; }
+        Type TriggerType { get; }
+
+        /// <summary>
+        /// Gets the trigger id.
+        /// </summary>
+        string TriggerId { get; }
     }
 }

@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="SampleJob3.cs" company="Nima Shahri">
+// <copyright file="SampleJob7.cs" company="Nima Shahri">
 //   Copyright ©2016. All rights reserved.
 // </copyright>
 // <summary>
-//   The sample job 3.
+//   Defines the SampleJob7 type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,13 +12,11 @@ namespace AtomicClock.WinService.Jobs
     using System;
 
     using AtomicClock.Contexts;
-    using AtomicClock.Schedulers;
-    using AtomicClock.Triggers;
 
     /// <summary>
-    /// The sample job 3.
+    /// The sample job 7.
     /// </summary>
-    public class SampleJob3
+    internal class SampleJob7
     {
         /// <summary>
         /// The do job.
@@ -32,7 +30,8 @@ namespace AtomicClock.WinService.Jobs
         public static void DoJob(dynamic data, JobContext context)
         {
             Console.WriteLine("Started: {0} - {1}", data, DateTime.Now);
-            context.JobScheduler.ScheduleJob<RunNowTrigger>(SampleJob4.DoJob);
+            context.JobScheduler.DeleteJob(jobInfo => true);
+            context.JobScheduler.UnscheduleJob((triggerInfo, jobInfo) => true);
             Console.WriteLine("Done:    {0} - {1}", data, DateTime.Now);
         }
     }

@@ -1,20 +1,20 @@
 ﻿namespace AtomicClock.Triggers
 {
     using System;
-    using System.Collections.Generic;
 
-    using AtomicClock.QueueingPolicies;
-
-    internal class TriggerInfo
+    public class TriggerInfo<TTrigger> : ITriggerInfo
+        where TTrigger : ITrigger
     {
-        public TriggerInfo(Type triggerType, dynamic triggerOptions)
+        public TriggerInfo(string triggerId = null, dynamic triggerOptions= null)
         {
-            this.TriggerType = triggerType;
             this.TriggerOptions = triggerOptions;
+            this.TriggerId = triggerId;
         }
 
-        public Type TriggerType { get; private set; }
+        public Type TriggerType => typeof(TTrigger);
 
-        public dynamic TriggerOptions { get; private set; }
+        public string TriggerId { get; }
+
+        public dynamic TriggerOptions { get; }
     }
 }

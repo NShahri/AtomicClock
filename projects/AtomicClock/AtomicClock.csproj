@@ -33,20 +33,22 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Asserts\ArgumentAssert.cs" />
     <Compile Include="AtomicClockManager.cs" />
-    <Compile Include="QueueingPolicies\AllowConcurrentExecutionPolicy.cs" />
-    <Compile Include="QueueingPolicies\QueueingPolicyActivator.cs" />
-    <Compile Include="QueueingPolicies\QueueingPolicyHelper.cs" />
-    <Compile Include="QueueingPolicies\QueueingPolicyInfo.cs" />
-    <Compile Include="QueueingPolicies\IQueueingPolicy.cs" />
+    <Compile Include="CancellationTokens\ICancellationTokensManager.cs" />
+    <Compile Include="CancellationTokens\CancellationTokensesManager.cs" />
+    <Compile Include="Jobs\ActionJobOptionsValidator.cs" />
+    <Compile Include="Jobs\IJobInfo.cs" />
+    <Compile Include="CancellationTokens\LinkedCancellationTokensesManager.cs" />
+    <Compile Include="Jobs\JobInfoValidator.cs" />
+    <Compile Include="QueueingPolicies\DisallowConcurrentQueuingPolicy.cs" />
+    <Compile Include="QueueingPolicies\QueuingPolicyActivator.cs" />
+    <Compile Include="QueueingPolicies\QueuingPolicyHelper.cs" />
+    <Compile Include="QueueingPolicies\QueuingPolicyInfo.cs" />
+    <Compile Include="QueueingPolicies\IQueuingPolicy.cs" />
     <Compile Include="Jobs\ActionJob.cs" />
     <Compile Include="Jobs\ActionJobOptions.cs" />
     <Compile Include="Jobs\IJob.cs" />
@@ -72,6 +74,8 @@
     <Compile Include="Tasks\ITaskFactory.cs" />
     <Compile Include="Tasks\ITaskPool.cs" />
     <Compile Include="Triggers\ITrigger.cs" />
+    <Compile Include="Triggers\ITriggerInfo.cs" />
+    <Compile Include="Triggers\TriggerInfoValidator.cs" />
     <Compile Include="Triggers\TriggerActivator.cs" />
     <Compile Include="Triggers\RunEveryDayAt.cs" />
     <Compile Include="Triggers\RunPeriodically.cs" />

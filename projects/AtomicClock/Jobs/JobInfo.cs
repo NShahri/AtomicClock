@@ -1,30 +1,47 @@
-﻿namespace AtomicClock.Jobs
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="triggerInfo.cs" company="Nima Shahri">
+//   Copyright ©2016. All rights reserved.
+// </copyright>
+// <summary>
+//   Defines the triggerInfo type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+namespace AtomicClock.Jobs
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using AtomicClock.QueueingPolicies;
 
-    public class JobInfo
+    /// <summary>
+    /// The job info.
+    /// </summary>
+    /// <typeparam name="TJob">
+    /// the IJob implementation.
+    /// </typeparam>
+    public class JobInfo<TJob> : IJobInfo 
+        where TJob : IJob
     {
-        public JobInfo(Type jobType, dynamic jobOptions)
+        public JobInfo(string jobId = null, IEnumerable<QueuingPolicyInfo> queuingPolicyInfo = null, bool executeOnCancellation = false, dynamic jobOptions= null)
         {
-            this.JobType = jobType;
             this.JobOptions = jobOptions;
-            this.JobId = Guid.NewGuid().ToString();
-            this.QueueingPolicies = null;// new List<Type>() { typeof(AllowConcurrentExecutionPolicy) };
-            this.ExecuteOnCancellation = false;
+            this.JobId = jobId ?? Guid.NewGuid().ToString();
+            this.ExecuteOnCancellation = executeOnCancellation;
+            if (queuingPolicyInfo != null)
+            {
+                this.QueuingPolicies = queuingPolicyInfo.ToList();
+            }
         }
 
-        public Type JobType { get; private set; }
+        public Type JobType => typeof(TJob);
 
-        public dynamic JobOptions { get; private set; }
+        public dynamic JobOptions { get; }
 
-        public IEnumerable<QueueingPolicyInfo> QueueingPolicies { get; private set; }
+        public IEnumerable<QueuingPolicyInfo> QueuingPolicies { get; }
 
-        public string JobId { get; private set; }
+        public string JobId { get; }
 
-        //It describes on cancellation request what is the behavior for all queued jobs
-        public bool ExecuteOnCancellation { get; private set; }
+        public bool ExecuteOnCancellation { get; }
     }
 }

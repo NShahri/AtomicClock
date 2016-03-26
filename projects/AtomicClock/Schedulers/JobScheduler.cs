@@ -1,111 +1,203 @@
-﻿namespace AtomicClock.Schedulers
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="JobScheduler.cs" company="Nima Shahri">
+//   Copyright ©2016. All rights reserved.
+// </copyright>
+// <summary>
+//   Defines the JobScheduler type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace AtomicClock.Schedulers
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
 
+    using AtomicClock.Asserts;
     using AtomicClock.Contexts;
     using AtomicClock.Jobs;
     using AtomicClock.Tasks;
     using AtomicClock.Triggers;
 
+    /// <summary>
+    /// The job scheduler.
+    /// </summary>
     internal class JobScheduler : IJobScheduler
     {
+        /// <summary>
+        /// The maximum concurrency level.
+        /// </summary>
         private readonly int maximumConcurrencyLevel;
 
-        private readonly List<JobSchedulerInfo> scheduleInfos = new List<JobSchedulerInfo>();
+        /// <summary>
+        /// The schedule info.
+        /// </summary>
+        private readonly IDictionary<Guid, JobSchedulerInfo> scheduleInfo = new ConcurrentDictionary<Guid, JobSchedulerInfo>();
 
-        private readonly List<ITrigger> triggers = new List<ITrigger>();
+        /// <summary>
+        /// The scheduler cancellation token source.
+        /// </summary>
+        private readonly CancellationTokenSource schedulerCancellationTokenSource = new CancellationTokenSource();
 
-        private CancellationTokenSource cancelationTokenSource;
-
-        private TriggerContext triggerContext;
-
+        /// <summary>
+        /// The task scheduler.
+        /// </summary>
         private CustomizedTaskScheduler taskScheduler;
 
+        /// <summary>
+        /// The started.
+        /// </summary>
         private bool started;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JobScheduler"/> class.
+        /// </summary>
+        /// <param name="maximumConcurrencyLevel">
+        /// The maximum concurrency level.
+        /// </param>
         public JobScheduler(int maximumConcurrencyLevel)
         {
             this.maximumConcurrencyLevel = maximumConcurrencyLevel;
         }
 
-        public void ScheduleJob<TJob, TTrigger>(dynamic jobOptions = null, dynamic triggerOptions = null)
-            where TTrigger : ITrigger where TJob : IJob
+        /// <summary>
+        /// The schedule job.
+        /// </summary>
+        /// <param name="jobInfo">
+        /// The job info.
+        /// </param>
+        /// <param name="triggerInfo">
+        /// The trigger info.
+        /// </param>
+        public void ScheduleJob(IJobInfo jobInfo, ITriggerInfo triggerInfo)
         {
-            lock (this.scheduleInfos)
-            {
-                var scheduleInfo = new JobSchedulerInfo(typeof(TTrigger), triggerOptions, typeof(TJob), jobOptions);
-                this.scheduleInfos.Add(scheduleInfo);
+            ArgumentAssert.NotNull(nameof(jobInfo), jobInfo);
+            ArgumentAssert.NotNull(nameof(triggerInfo), triggerInfo);
 
-                if (this.started)
-                {
-                    this.Start(scheduleInfo);
-                }
+            if (this.schedulerCancellationTokenSource.IsCancellationRequested)
+            {
+                throw new OperationCanceledException("Can not schedule a job in canceled job scheduler", this.schedulerCancellationTokenSource.Token);
+            }
+
+            jobInfo.ValidateAndThrow();
+            triggerInfo.ValidateAndThrow();
+
+            var info = new JobSchedulerInfo(triggerInfo, jobInfo, this.schedulerCancellationTokenSource.Token);
+            this.scheduleInfo.Add(info.Id, info);
+
+            if (this.started)
+            {
+                this.Start(info);
             }
         }
 
+        /// <summary>
+        /// Delete jobs from this scheduler.
+        /// It does not affect the triggered jobs on queue to run.
+        /// It does not affect the running jobs.
+        /// </summary>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        public void UnscheduleJob(Func<ITriggerInfo, IJobInfo, bool> predicate)
+        {
+            ArgumentAssert.NotNull(nameof(predicate), predicate);
+
+            foreach (var info in this.scheduleInfo.Values.Where(info => predicate(info.TriggerInfo, info.JobInfo)))
+            {
+                info.TriggerCancellationTokensManager.Cancel();
+            }
+        }
+
+        /// <summary>
+        /// It removes the triggered jobs from the queue.
+        /// It tries to cancel running jobs.
+        /// It does not affect the triggers in this scheduler.
+        /// </summary>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        public void DeleteJob(Func<IJobInfo, bool> predicate)
+        {
+            ArgumentAssert.NotNull(nameof(predicate), predicate);
+
+            foreach (var info in this.scheduleInfo.Values.Where(info => predicate(info.JobInfo)))
+            {
+                info.JobCancellationTokensManager.Cancel();
+            }
+        }
+
+        /// <summary>
+        /// The shutdown.
+        /// </summary>
+        /// <param name="waitForJobsToComplete">
+        /// The wait for jobs to complete.
+        /// </param>
         public void Shutdown(bool waitForJobsToComplete)
         {
-            lock (this.scheduleInfos)
+            if (!this.started)
             {
-                if (!this.started)
-                {
-                    return;
-                }
-                this.started = false;
-
-                this.cancelationTokenSource.Cancel();
-                this.taskScheduler.Dispose();
-                this.ClearScheduler();
+                return;
             }
+
+            this.started = false;
+
+            this.schedulerCancellationTokenSource.Cancel();
+            this.taskScheduler.Dispose();
+            this.taskScheduler = null;
         }
 
-        public void Pause()
-        {
-            // TODO: not supported
-            throw new NotSupportedException();
-        }
-
+        /// <summary>
+        /// The start.
+        /// </summary>
         public void Start()
         {
-            lock (this.scheduleInfos)
+            if (this.started)
             {
-                if (this.started)
-                {
-                    return;
-                }
-                this.started = true;
+                return;
+            }
 
-                this.InitScheduler();
-                foreach (var scheduleInfo in this.scheduleInfos)
-                {
-                    this.Start(scheduleInfo);
-                }
+            this.started = true;
+
+            this.InitScheduler();
+            foreach (var info in this.scheduleInfo.Values)
+            {
+                this.Start(info);
             }
         }
 
+        /// <summary>
+        /// TO initialize scheduler.
+        /// </summary>
         private void InitScheduler()
         {
-            this.cancelationTokenSource = new CancellationTokenSource();
             this.taskScheduler = new CustomizedTaskScheduler(this.maximumConcurrencyLevel);
-            var taskFactory = new CustomizedTaskFactory(this, this.taskScheduler, this.cancelationTokenSource.Token);
-            this.triggerContext = new TriggerContext(this.cancelationTokenSource.Token, taskFactory, this.taskScheduler);
         }
 
-        private void ClearScheduler()
+        /// <summary>
+        /// The start.
+        /// </summary>
+        /// <param name="jobSchedulerInfo">
+        /// The job scheduler info.
+        /// </param>
+        private void Start(JobSchedulerInfo jobSchedulerInfo)
         {
-            this.taskScheduler = null;
-            this.triggerContext = null;
-            this.triggers.Clear();
-            this.scheduleInfos.Clear();
-        }
+            var triggerInfo = jobSchedulerInfo.TriggerInfo;
+            var triggerCancellationToken = jobSchedulerInfo.TriggerCancellationTokensManager.RegisterCancellationToken();
 
-        protected void Start(JobSchedulerInfo jobSchedulerInfo)
-        {
-            var trigger = jobSchedulerInfo.TriggerInfo.CreateInstance();
-            this.triggers.Add(trigger);
-            trigger.Schedule(jobSchedulerInfo.JobInfo, this.triggerContext);
+            var trigger = triggerInfo.CreateInstance();
+            triggerCancellationToken.Register(
+                () =>
+                    {
+                        this.scheduleInfo.Remove(jobSchedulerInfo.Id);
+                    });
+
+            var taskFactory = new CustomizedTaskFactory(this,  this.taskScheduler, jobSchedulerInfo.JobCancellationTokensManager);
+            var triggerContext = new TriggerContext(triggerCancellationToken, taskFactory, this.taskScheduler);
+
+            trigger.Schedule(jobSchedulerInfo.JobInfo, triggerContext);
         }
     }
 }

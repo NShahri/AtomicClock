@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="JobActivator.cs" company="Nima Shahri">
+// <copyright file="JobInfoValidator.cs" company="Nima Shahri">
 //   Copyright ©2016. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the JobActivator type.
+//   Defines the TriggerInfoValidator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,24 +14,24 @@ namespace AtomicClock.Jobs
     using AtomicClock.Asserts;
 
     /// <summary>
-    /// The job activator.
+    /// The job info validation.
     /// </summary>
-    internal static class JobActivator
+    internal static class JobInfoValidator
     {
         /// <summary>
-        /// The create instance.
+        /// The validate and throw.
         /// </summary>
         /// <param name="jobInfo">
         /// The job info.
         /// </param>
-        /// <returns>
-        /// The <see cref="IJob"/>.
-        /// </returns>
-        public static IJob CreateInstance(this IJobInfo jobInfo)
+        public static void ValidateAndThrow(this IJobInfo jobInfo)
         {
             ArgumentAssert.NotNull(nameof(jobInfo), jobInfo);
 
-            return (IJob)Activator.CreateInstance(jobInfo.JobType, jobInfo.JobOptions);
+            if (!typeof(IJob).IsAssignableFrom(jobInfo.JobType))
+            {
+                throw new InvalidOperationException("Provided job type has to be based of IJob.");
+            }
         }
     }
 }

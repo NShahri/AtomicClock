@@ -79,7 +79,7 @@ namespace AtomicClock.WinService
             try
             {
                 // define a job as a class
-                this.jobScheduler.ScheduleJob<SampleJob, RunPeriodically>("Job Sample 1", TimeSpan.FromSeconds(2));
+                this.jobScheduler.ScheduleJob<SampleJob, RunPeriodically>("Job Sample 1", TimeSpan.FromSeconds(3));
 
                 // define a job as an action
                 this.jobScheduler.ScheduleJob<RunPeriodically>(SampleJob2.DoJob, "Job Sample 2", TimeSpan.FromSeconds(3));
@@ -92,6 +92,9 @@ namespace AtomicClock.WinService
 
                 // not handled exceptions happens inside the job
                 this.jobScheduler.ScheduleJob<RunPeriodically>(SampleJob6.DoJob, "Job Sample 6", TimeSpan.FromSeconds(3));
+
+                // unscheduled all tasks in 20 seconds
+                this.jobScheduler.ScheduleJob<RunPeriodically>(SampleJob7.DoJob, "Job Sample 7", new { period = TimeSpan.FromSeconds(20), firstRunNow = false });
             }
             catch (Exception ex)
             {

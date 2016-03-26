@@ -1,9 +1,24 @@
-﻿namespace AtomicClock.WinService
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Program.cs" company="Nima Shahri">
+//   Copyright ©2016. All rights reserved.
+// </copyright>
+// <summary>
+//   Defines the Program type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace AtomicClock.WinService
 {
     using Topshelf;
 
+    /// <summary>
+    /// The program.
+    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// The main.
+        /// </summary>
         private static void Main()
         {
             System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);

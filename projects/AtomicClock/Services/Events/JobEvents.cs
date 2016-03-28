@@ -1,47 +1,42 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LogLevel.cs" company="Nima Shahri">
+// <copyright file="JobEvents.cs" company="Nima Shahri">
 //   Copyright ©2016. All rights reserved.
 // </copyright>
 // <summary>
-//   Defines the LogLevel type.
+//   Defines the JobEvents type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AtomicClock.Services
+namespace AtomicClock.Services.Events
 {
     /// <summary>
-    /// The log level.
+    /// The job events.
     /// </summary>
-    public enum LogLevel
+    public enum JobEvents
     {
         /// <summary>
-        /// The trace.
+        /// The job is queued.
         /// </summary>
-        Trace = 1,
+        Queued,
 
         /// <summary>
-        /// The debug.
+        /// The job is running.
         /// </summary>
-        Debug = 2,
+        Running,
 
         /// <summary>
-        /// The info.
+        /// The job is completed.
         /// </summary>
-        Info = 4,
+        Completed,
 
         /// <summary>
-        /// The warn.
+        /// The job is cancelled.
         /// </summary>
-        Warn = 8,
+        Cancelled,
 
         /// <summary>
-        /// The error.
+        /// The execution exception.
         /// </summary>
-        Error = 16,
-
-        /// <summary>
-        /// The fatal.
-        /// </summary>
-        Fatal = 32
+        ExecutionException
     }
 }

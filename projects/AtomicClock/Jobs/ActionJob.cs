@@ -1,17 +1,33 @@
-﻿namespace AtomicClock.Jobs
-{
-    using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ActionJob.cs" company="Nima Shahri">
+//   Copyright ©2016. All rights reserved.
+// </copyright>
+// <summary>
+//   Defines the ActionJob type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
+namespace AtomicClock.Jobs
+{
     using AtomicClock.Asserts;
     using AtomicClock.Contexts;
-    using AtomicClock.Services;
 
+    /// <summary>
+    /// The action job.
+    /// </summary>
     internal class ActionJob : IJob
     {
+        /// <summary>
+        /// The options.
+        /// </summary>
         private readonly ActionJobOptions options;
 
-        private static readonly LoggerService Logger = LogManager.GetCurrentClassLogger();
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionJob"/> class.
+        /// </summary>
+        /// <param name="options">
+        /// The options.
+        /// </param>
         public ActionJob(ActionJobOptions options)
         {
             ArgumentAssert.NotNull(nameof(options), options);
@@ -20,25 +36,13 @@
             this.options = options;
         }
 
+        /// <summary>
+        /// The execute.
+        /// </summary>
+        /// <param name="context">
+        /// The context.
+        /// </param>
         public void Execute(JobContext context)
-        {
-            var jobName = this.GetType().Name;
-
-            try
-            {
-                using (MetricManager.StartTimer("job.duration", $"job.name:{jobName}"))
-                {
-                    this.OnExecute(context);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"An exception has occurred running {jobName}", ex);
-                throw;
-            }
-        }
-
-        protected void OnExecute(JobContext context)
         {
             var jobAction = this.options.Action;
             jobAction(this.options.Options, context);

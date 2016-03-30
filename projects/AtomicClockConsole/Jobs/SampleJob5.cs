@@ -1,4 +1,12 @@
-﻿namespace AtomicClock.WinService.Jobs
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SampleJob5.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
+// </copyright>
+// <summary>
+//   AssemblyInfo.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+namespace AtomicClock.WinService.Jobs
 {
     using System;
     using System.Threading;

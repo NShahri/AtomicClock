@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="JobEventModel.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the JobEventModel type.
@@ -37,12 +37,12 @@ namespace AtomicClock.Services.Events
         }
 
         /// <summary>
-        /// Gets or sets the job info.
+        /// Gets the job info.
         /// </summary>
         public IJobInfo JobInfo { get; private set; }
 
         /// <summary>
-        /// Gets or sets the job scheduler.
+        /// Gets the job scheduler.
         /// </summary>
         public IJobScheduler JobScheduler { get; private set; }
     }

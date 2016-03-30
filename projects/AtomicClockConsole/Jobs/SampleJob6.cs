@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SampleJob6.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the SampleJob6 type.
@@ -22,8 +22,6 @@ namespace AtomicClock.WinService.Jobs
         /// <param name="data">
         /// The data.
         /// </param>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
         public static void DoJob(dynamic data)
         {
             Console.WriteLine("Started: {0} - {1}", data, DateTime.Now);

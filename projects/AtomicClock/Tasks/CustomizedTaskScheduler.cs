@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CustomizedTaskScheduler.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the CustomizedTaskScheduler type.
@@ -27,7 +27,7 @@ namespace AtomicClock.Tasks
         /// </summary>
         [ThreadStatic]
         private static bool currentThreadIsProcessingItems;
-        
+
         /// <summary>
         /// The tasks.
         /// </summary>
@@ -53,7 +53,7 @@ namespace AtomicClock.Tasks
         {
             if (maximumConcurrencyLevel < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(maximumConcurrencyLevel), "must be greater than zero");    
+                throw new ArgumentOutOfRangeException(nameof(maximumConcurrencyLevel), "must be greater than zero");
             }
 
             this.MaximumConcurrencyLevel = maximumConcurrencyLevel;
@@ -85,7 +85,7 @@ namespace AtomicClock.Tasks
         {
             Task.WaitAll(this.tasks.Union(this.runningTasks).ToArray());
         }
-        
+
         /// <summary>
                  /// The queue task.
                  /// </summary>
@@ -191,7 +191,7 @@ namespace AtomicClock.Tasks
         private void NotifyThreadPoolOfPendingWork()
         {
             ThreadPool.UnsafeQueueUserWorkItem(
-                _ => 
+                _ =>
                     {
                         // Note that the current thread is now processing work items.
                         // This is necessary to enable in-lining of tasks into this thread.
@@ -233,7 +233,7 @@ namespace AtomicClock.Tasks
                         {
                             currentThreadIsProcessingItems = false;
                         }
-                    }, 
+                    },
                 null);
         }
     }

@@ -1,12 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="TimerBasedTrigger.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the TimerBasedTrigger type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace AtomicClock.Triggers
 {
     using System;
@@ -16,12 +15,18 @@ namespace AtomicClock.Triggers
     using AtomicClock.Contexts;
     using AtomicClock.Jobs;
     using AtomicClock.QueueingPolicies;
+    using AtomicClock.Services;
 
     /// <summary>
     /// The timer based trigger.
     /// </summary>
     internal class TimerBasedTrigger : ITrigger
     {
+        /// <summary>
+        /// The logger.
+        /// </summary>
+        private static readonly LoggerService Logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// The calculate next schedule run.
         /// </summary>
@@ -31,7 +36,7 @@ namespace AtomicClock.Triggers
         /// The timer.
         /// </summary>
         private Timer timer;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TimerBasedTrigger"/> class.
         /// </summary>
@@ -40,6 +45,8 @@ namespace AtomicClock.Triggers
         /// </param>
         public TimerBasedTrigger(Func<bool, TimeSpan> calcNextScheduleRun)
         {
+            ArgumentAssert.NotNull(nameof(calcNextScheduleRun), calcNextScheduleRun);
+
             this.calcNextScheduleRun = calcNextScheduleRun;
         }
 
@@ -56,16 +63,17 @@ namespace AtomicClock.Triggers
         {
             ArgumentAssert.NotNull(nameof(jobInfo), jobInfo);
             ArgumentAssert.NotNull(nameof(context), context);
-
-            this.timer = new Timer(this.OnTimerCallback, new { jobInfo, context }, Timeout.Infinite, Timeout.Infinite);
-
-            context.TriggerCancellationToken.Register(() =>
+            ArgumentAssert.NotCanceled(nameof(context.TriggerCancellationToken), context.TriggerCancellationToken);
+            if (this.timer != null)
             {
-                lock (this.timer)
-                {
-                    this.StopTimer();
-                }
-            });
+                throw new InvalidOperationException("This trigger was scheduled and can not re-schedule again.");
+            }
+
+            this.InitTimer(jobInfo, context);
+
+            this.RegisterCancellationToken(context.TriggerCancellationToken);
+
+            Logger.Debug($"trigger {this.GetType()} scheduled.");
 
             this.ChangeTimer(this.calcNextScheduleRun(true), context);
         }
@@ -94,6 +102,39 @@ namespace AtomicClock.Triggers
         }
 
         /// <summary>
+        /// The register cancellation token.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        private void RegisterCancellationToken(CancellationToken token)
+        {
+            token.Register(
+                () =>
+                    {
+                        lock (this.timer)
+                        {
+                            Logger.Debug($"trigger {this.GetType()} cancelled by cancelltion token.");
+                            this.StopTimer();
+                        }
+                    });
+        }
+
+        /// <summary>
+        /// The init timer.
+        /// </summary>
+        /// <param name="jobInfo">
+        /// The job info.
+        /// </param>
+        /// <param name="context">
+        /// The context.
+        /// </param>
+        private void InitTimer(IJobInfo jobInfo, TriggerContext context)
+        {
+            this.timer = new Timer(this.OnTimerCallback, new { jobInfo, context }, Timeout.Infinite, Timeout.Infinite);
+        }
+
+        /// <summary>
         /// The change timer.
         /// </summary>
         /// <param name="nextRun">
@@ -106,6 +147,7 @@ namespace AtomicClock.Triggers
         {
             if (!context.TriggerCancellationToken.IsCancellationRequested)
             {
+                Logger.Debug($"trigger {this.GetType()} will be trigger in {nextRun.TotalSeconds} seconds.");
                 this.timer.Change((long)nextRun.TotalMilliseconds, Timeout.Infinite);
             }
             else
@@ -119,6 +161,7 @@ namespace AtomicClock.Triggers
         /// </summary>
         private void StopTimer()
         {
+            Logger.Debug($"trigger {this.GetType()} stopped.");
             this.timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
     }

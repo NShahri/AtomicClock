@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LoggerService.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the LoggerService type.
@@ -43,7 +43,7 @@ namespace AtomicClock.Services
         /// </param>
         public void Error(string message, Exception ex)
         {
-            LogManager.Log(LogLevel.Error, this.loggerName, message, ex);    
+            LogManager.Log(LogLevel.Error, this.loggerName, message, ex);
         }
 
         /// <summary>

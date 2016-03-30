@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="triggerInfo.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// <copyright file="JobInfo.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the triggerInfo type.
@@ -20,10 +20,14 @@ namespace AtomicClock.Jobs
     /// <typeparam name="TJob">
     /// the IJob implementation.
     /// </typeparam>
-    public class JobInfo<TJob> : IJobInfo 
+    public class JobInfo<TJob> : IJobInfo
         where TJob : IJob
     {
-        public JobInfo(string jobId = null, IEnumerable<QueuingPolicyInfo> queuingPolicyInfo = null, bool executeOnCancellation = false, dynamic jobOptions= null)
+        public JobInfo(
+            string jobId = null,
+            IEnumerable<QueuingPolicyInfo> queuingPolicyInfo = null,
+            bool executeOnCancellation = false,
+            dynamic jobOptions = null)
         {
             this.JobOptions = jobOptions;
             this.JobId = jobId ?? Guid.NewGuid().ToString();

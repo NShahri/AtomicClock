@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CustomizedTaskFactory.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the CustomizedTaskFactory type.
@@ -78,7 +78,7 @@ namespace AtomicClock.Tasks
 
             var task = new CustomizedTask(jobInfo, jobContext);
             task.ContinueWith(
-                _ => this.jobCancellationTokensManager.UnregisterCancellationToken(cancellationToken), 
+                _ => this.jobCancellationTokensManager.UnregisterCancellationToken(cancellationToken),
                 TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.NotOnCanceled);
             task.Start(this.taskScheduler);
 

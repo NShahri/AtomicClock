@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CustomizedTask.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   The customized task.
@@ -36,17 +36,16 @@ namespace AtomicClock.Tasks
         /// <param name="jobContext">
         /// The job context.
         /// </param>
-        public CustomizedTask(IJobInfo jobInfo, JobContext jobContext) 
+        public CustomizedTask(IJobInfo jobInfo, JobContext jobContext)
             : base(MakeAction(jobInfo, jobContext), jobContext.CancellationToken)
         {
             ArgumentAssert.NotNull(nameof(jobInfo), jobInfo);
             ArgumentAssert.NotNull(nameof(jobContext), jobContext);
-            
+
             EventManager.JobQueued(jobInfo, jobContext.JobScheduler);
 
-            jobContext.CancellationToken.Register( 
-                () => EventManager.JobCancelled(jobInfo, jobContext.JobScheduler)
-            );
+            jobContext.CancellationToken.Register(
+                () => EventManager.JobCancelled(jobInfo, jobContext.JobScheduler));
 
             this.JobInfo = jobInfo;
         }

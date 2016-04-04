@@ -13,11 +13,43 @@ namespace AtomicClock.WinService
 
     using AtomicClock.Services;
 
+    using NLog.Conditions;
+    using NLog.Config;
+    using NLog.Targets;
+
     /// <summary>
     /// The log helper.
     /// </summary>
     public static class LogHelper
     {
+        public static void NLogToConsole()
+        {
+            var consoleTarget = new ColoredConsoleTarget();
+
+            var highlightRule = new ConsoleRowHighlightingRule
+                {
+                    Condition = ConditionParser.ParseExpression("level == LogLevel.Info"),
+                    ForegroundColor = ConsoleOutputColor.Green
+                };
+
+            var highlightRule2 = new ConsoleRowHighlightingRule
+                {
+                    Condition = ConditionParser.ParseExpression("level == LogLevel.Debug"),
+                    ForegroundColor = ConsoleOutputColor.DarkGreen
+                };
+
+            consoleTarget.RowHighlightingRules.Add(highlightRule);
+            consoleTarget.RowHighlightingRules.Add(highlightRule2);
+
+            var config = new LoggingConfiguration();
+            config.AddTarget("console", consoleTarget);
+
+            var rule1 = new LoggingRule("*", NLog.LogLevel.Debug, consoleTarget);
+            config.LoggingRules.Add(rule1);
+
+            NLog.LogManager.Configuration = config;
+        }
+
         /// <summary>
         /// The to n log level.
         /// </summary>

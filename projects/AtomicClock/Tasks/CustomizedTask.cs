@@ -45,7 +45,11 @@ namespace AtomicClock.Tasks
             EventManager.JobQueued(jobInfo, jobContext.JobScheduler);
 
             jobContext.CancellationToken.Register(
-                () => EventManager.JobCancelled(jobInfo, jobContext.JobScheduler));
+                () =>
+                    {
+                        EventManager.JobCancelled(jobInfo, jobContext.JobScheduler);
+                        Logger.Debug($"Job {jobInfo.JobId} has been cancelled.");
+                    });
 
             this.JobInfo = jobInfo;
         }
@@ -114,6 +118,7 @@ namespace AtomicClock.Tasks
             finally
             {
                 EventManager.JobCompleted(jobInfo, jobContext.JobScheduler);
+                Logger.Debug($"Job {jobInfo.JobId} has been completed.");
             }
         }
     }

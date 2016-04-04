@@ -40,6 +40,7 @@ namespace AtomicClock.WinService
         {
             try
             {
+                LogHelper.NLogToConsole();
                 this.InitializeScheduler();
                 this.InitializeJobs();
                 this.jobScheduler.Start();

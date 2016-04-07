@@ -195,7 +195,7 @@ namespace AtomicClock.Schedulers
                     });
 
             var taskFactory = new CustomizedTaskFactory(this,  this.taskScheduler, jobSchedulerInfo.JobCancellationTokensManager);
-            var triggerContext = new TriggerContext(triggerCancellationToken, taskFactory, this.taskScheduler);
+            var triggerContext = new TriggerContext(triggerCancellationToken, taskFactory);
 
             trigger.Schedule(jobSchedulerInfo.JobInfo, triggerContext);
         }

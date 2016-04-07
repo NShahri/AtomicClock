@@ -43,8 +43,9 @@ namespace AtomicClock.QueueingPolicies
                 return true;
             }
 
-            return policies.Select(executionPolicy => executionPolicy.CreateInstance())
-                .All(policy => policy.CheckQueuingPolicy(jobInfo, context.TaskPool));
+            // return policies.Select(executionPolicy => executionPolicy.CreateInstance())
+            // .All(policy => policy.CheckQueuingPolicy(jobInfo, context.TaskPool));
+            return true;
         }
     }
 }

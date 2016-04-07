@@ -31,16 +31,14 @@ namespace AtomicClock.Contexts
         /// <param name="taskPool">
         /// The task pool.
         /// </param>
-        internal TriggerContext(CancellationToken triggerCancellationToken, ITaskFactory taskFactory, ITaskPool taskPool)
+        internal TriggerContext(CancellationToken triggerCancellationToken, ITaskFactory taskFactory)
         {
             ArgumentAssert.NotNull(nameof(taskFactory), taskFactory);
-            ArgumentAssert.NotNull(nameof(taskPool), taskPool);
             ArgumentAssert.NotNull(nameof(triggerCancellationToken), triggerCancellationToken);
             ArgumentAssert.NotCanceled(nameof(triggerCancellationToken), triggerCancellationToken);
 
             this.TriggerCancellationToken = triggerCancellationToken;
             this.TaskFactory = taskFactory;
-            this.TaskPool = taskPool;
         }
 
         /// <summary>
@@ -52,10 +50,5 @@ namespace AtomicClock.Contexts
         /// Gets the task factory.
         /// </summary>
         public ITaskFactory TaskFactory { get; private set; }
-
-        /// <summary>
-        /// Gets the task pool.
-        /// </summary>
-        public ITaskPool TaskPool { get; private set; }
     }
 }

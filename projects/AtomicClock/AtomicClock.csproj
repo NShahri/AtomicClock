@@ -76,6 +76,7 @@
     <Compile Include="Tasks\CustomizedTaskScheduler.cs" />
     <Compile Include="Tasks\ITaskFactory.cs" />
     <Compile Include="Tasks\ITaskPool.cs" />
+    <Compile Include="TestAccess.cs" />
     <Compile Include="Triggers\ITrigger.cs" />
     <Compile Include="Triggers\ITriggerInfo.cs" />
     <Compile Include="Triggers\TriggerInfoValidator.cs" />

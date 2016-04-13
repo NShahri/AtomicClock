@@ -64,6 +64,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AtomicClock\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
     <Compile Include="CancellationTokens\CancellationTokensManagerTest.cs" />
     <Compile Include="CancellationTokens\LinkedCancellationTokensManagerTest.cs" />
     <Compile Include="Contexts\JobContextTest.cs" />

@@ -1,4 +1,8 @@
-﻿namespace AtomicClock.Tests.CancellationTokens
+﻿// <copyright file="LinkedCancellationTokensManagerTest.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
+// </copyright>
+
+namespace AtomicClock.Tests.CancellationTokens
 {
     using System;
     using System.Threading;

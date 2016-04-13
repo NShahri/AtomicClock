@@ -1,4 +1,8 @@
-﻿namespace AtomicClock.Tests.Contexts
+﻿// <copyright file="TriggerContextTest.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
+// </copyright>
+
+namespace AtomicClock.Tests.Contexts
 {
     using System;
     using System.Threading;

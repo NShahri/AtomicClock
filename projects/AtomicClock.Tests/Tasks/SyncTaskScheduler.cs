@@ -1,4 +1,8 @@
-﻿namespace AtomicClock.Tests.Tasks
+﻿// <copyright file="SyncTaskScheduler.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
+// </copyright>
+
+namespace AtomicClock.Tests.Tasks
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

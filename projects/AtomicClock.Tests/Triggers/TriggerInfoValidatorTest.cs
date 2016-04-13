@@ -1,4 +1,8 @@
-﻿namespace AtomicClock.Tests.Triggers
+﻿// <copyright file="TriggerInfoValidatorTest.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
+// </copyright>
+
+namespace AtomicClock.Tests.Triggers
 {
     using System;
 

@@ -1,4 +1,8 @@
-﻿namespace AtomicClock.Tests.Jobs
+﻿// <copyright file="JobInfoValidatorTest.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
+// </copyright>
+
+namespace AtomicClock.Tests.Jobs
 {
     using System;
 

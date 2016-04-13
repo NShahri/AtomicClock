@@ -40,6 +40,7 @@
     <Compile Include="AtomicClockManager.cs" />
     <Compile Include="CancellationTokens\ICancellationTokensManager.cs" />
     <Compile Include="CancellationTokens\CancellationTokensManager.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Jobs\ActionJobOptionsValidator.cs" />
     <Compile Include="Jobs\IJobInfo.cs" />
     <Compile Include="CancellationTokens\LinkedCancellationTokensManager.cs" />

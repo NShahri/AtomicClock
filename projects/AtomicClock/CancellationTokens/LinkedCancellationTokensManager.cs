@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LinkedCancellationTokensesManager.cs" company="Nima Shahri">
+// <copyright file="LinkedCancellationTokensManager.cs" company="Nima Shahri">
 // Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
@@ -16,7 +16,7 @@ namespace AtomicClock.CancellationTokens
     /// <summary>
     /// The collection linked cancellation token manager.
     /// </summary>
-    internal class LinkedCancellationTokensesManager : CancellationTokensesManager
+    internal class LinkedCancellationTokensManager : CancellationTokensManager
     {
         /// <summary>
         /// The scheduler cancellation token.
@@ -24,12 +24,12 @@ namespace AtomicClock.CancellationTokens
         private readonly CancellationToken schedulerCancellationToken;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LinkedCancellationTokensesManager"/> class.
+        /// Initializes a new instance of the <see cref="LinkedCancellationTokensManager"/> class.
         /// </summary>
         /// <param name="schedulerCancellationToken">
         /// The scheduler Cancellation Token.
         /// </param>
-        public LinkedCancellationTokensesManager(CancellationToken schedulerCancellationToken)
+        public LinkedCancellationTokensManager(CancellationToken schedulerCancellationToken)
         {
             ArgumentAssert.NotNull(nameof(schedulerCancellationToken), schedulerCancellationToken);
             ArgumentAssert.NotCanceled(nameof(schedulerCancellationToken), schedulerCancellationToken);

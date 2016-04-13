@@ -17,6 +17,8 @@ namespace AtomicClock.Tests.Triggers
     using AtomicClock.Tasks;
     using AtomicClock.Triggers;
 
+    using NSubstitute;
+
     using Xunit;
 
     /// <summary>
@@ -25,15 +27,41 @@ namespace AtomicClock.Tests.Triggers
     public class TimerBasedTriggerTest
     {
         [Fact]
-        public void FirstRunTest()
+        public void NullFuncTest()
         {
-            //var jobActionOptions = new ActionJobOptions { Action = (d,c) => { return; }, Options = null };
-            //var jobInfo = new JobInfo<ActionJob>(jobOptions: jobActionOptions);
-            //var triggerContext = new TriggerContext(new CancellationToken(), new CustomizedTaskFactory(), new CustomizedTaskScheduler(1));
+            Assert.Throws<ArgumentNullException>(() => new TimerBasedTrigger(null));
+        }
 
-            //var trigger = new TimerBasedTrigger((firstRun) => TimeSpan.Zero);
-            //trigger.Schedule(jobInfo, triggerContext);
-            //Assert.()
+        [Fact]
+        public void CancelledTokenTest()
+        {
+            var taskFactory = Substitute.For<ITaskFactory>();
+            var jobInfo = Substitute.For<IJobInfo>();
+            var cancellationTokenSource = new CancellationTokenSource();
+            var context = new TriggerContext(cancellationTokenSource.Token, taskFactory);
+            var trigger = new TimerBasedTrigger((bFirst) => TimeSpan.FromSeconds(1));
+
+            cancellationTokenSource.Cancel();
+            Assert.Throws<OperationCanceledException>(() => trigger.Schedule(jobInfo, context));
+        }
+
+        [Fact]
+        public void NullJobInfoTest()
+        {
+            var taskFactory = Substitute.For<ITaskFactory>();
+            var context = new TriggerContext(CancellationToken.None, taskFactory);
+            var trigger = new TimerBasedTrigger((bFirst) => TimeSpan.FromSeconds(1));
+
+            Assert.Throws<ArgumentNullException>(() => trigger.Schedule(null, context));
+        }
+
+        [Fact]
+        public void NullContextTest()
+        {
+            var jobInfo = Substitute.For<IJobInfo>();
+            var trigger = new TimerBasedTrigger((bFirst) => TimeSpan.FromSeconds(1));
+
+            Assert.Throws<ArgumentNullException>(() => trigger.Schedule(jobInfo, null));
         }
     }
 }

@@ -9,6 +9,8 @@
 
 namespace AtomicClock.Tasks
 {
+    using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using AtomicClock.Asserts;
@@ -16,12 +18,18 @@ namespace AtomicClock.Tasks
     using AtomicClock.Contexts;
     using AtomicClock.Jobs;
     using AtomicClock.Schedulers;
+    using AtomicClock.Services;
 
     /// <summary>
     /// The customized task factory.
     /// </summary>
     internal class CustomizedTaskFactory : ITaskFactory
     {
+        /// <summary>
+        /// The logger.
+        /// </summary>
+        private static readonly LoggerService Logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// The job cancellation info.
         /// </summary>
@@ -66,23 +74,72 @@ namespace AtomicClock.Tasks
         /// <param name="jobInfo">
         /// The job Info.
         /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
-        public Task StartNew(IJobInfo jobInfo)
+        public void StartNew(IJobInfo jobInfo)
         {
             ArgumentAssert.NotNull(nameof(jobInfo), jobInfo);
 
             var cancellationToken = this.jobCancellationTokensManager.RegisterCancellationToken();
-            var jobContext = new JobContext(cancellationToken, this.jobScheduler);
+
+            var jobContext = this.GetJobContext(cancellationToken);
+            if (jobContext == null)
+            {
+                return;
+            }
 
             var task = new CustomizedTask(jobInfo, jobContext);
             task.ContinueWith(
                 _ => this.jobCancellationTokensManager.UnregisterCancellationToken(cancellationToken),
                 TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.NotOnCanceled);
-            task.Start(this.taskScheduler);
 
-            return task;
+            this.StartTask(task);
+        }
+
+        /// <summary>
+        /// The get job context.
+        /// </summary>
+        /// <param name="token">
+        /// The token.
+        /// </param>
+        /// <returns>
+        /// The <see cref="JobContext"/>.
+        /// </returns>
+        protected JobContext GetJobContext(CancellationToken token)
+        {
+            try
+            {
+                return new JobContext(token, this.jobScheduler);
+            }
+            catch (OperationCanceledException ex)
+            {
+                // As there is a small time between creating task (with connected token)
+                // and starting task (adding to task scheduler)
+                // there is a chance user cancells the token before running task
+                // DO NOTHING in this case is a valid policy
+                Logger.Info(ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// The start task.
+        /// </summary>
+        /// <param name="task">
+        /// The task.
+        /// </param>
+        protected void StartTask(Task task)
+        {
+            try
+            {
+                task.Start(this.taskScheduler);
+            }
+            catch (InvalidOperationException ex)
+            {
+                // As there is a small time between creating task (with connected token)
+                // and starting task (adding to task scheduler)
+                // there is a chance user cancells the token before running task
+                // DO NOTHING in this case is a valid policy
+                Logger.Info(ex.Message);
+            }
         }
     }
 }

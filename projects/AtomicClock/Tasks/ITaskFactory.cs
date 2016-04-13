@@ -24,9 +24,6 @@ namespace AtomicClock.Tasks
         /// <param name="jobInfo">
         /// The job Info.
         /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
-        Task StartNew(IJobInfo jobInfo);
+        void StartNew(IJobInfo jobInfo);
     }
 }

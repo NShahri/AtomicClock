@@ -39,10 +39,10 @@
     <Compile Include="Asserts\ArgumentAssert.cs" />
     <Compile Include="AtomicClockManager.cs" />
     <Compile Include="CancellationTokens\ICancellationTokensManager.cs" />
-    <Compile Include="CancellationTokens\CancellationTokensesManager.cs" />
+    <Compile Include="CancellationTokens\CancellationTokensManager.cs" />
     <Compile Include="Jobs\ActionJobOptionsValidator.cs" />
     <Compile Include="Jobs\IJobInfo.cs" />
-    <Compile Include="CancellationTokens\LinkedCancellationTokensesManager.cs" />
+    <Compile Include="CancellationTokens\LinkedCancellationTokensManager.cs" />
     <Compile Include="Jobs\JobInfoValidator.cs" />
     <Compile Include="QueueingPolicies\DisallowConcurrentQueuingPolicy.cs" />
     <Compile Include="QueueingPolicies\QueuingPolicyActivator.cs" />

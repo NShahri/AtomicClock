@@ -45,10 +45,10 @@ namespace AtomicClock.Schedulers
             this.JobInfo = jobInfo;
             this.Id = Guid.NewGuid();
 
-            this.TriggerCancellationTokensManager = new LinkedCancellationTokensesManager(schedulerCancellationToken);
+            this.TriggerCancellationTokensManager = new LinkedCancellationTokensManager(schedulerCancellationToken);
             this.JobCancellationTokensManager = this.JobInfo.ExecuteOnCancellation ?
-                new CancellationTokensesManager() :
-                new LinkedCancellationTokensesManager(schedulerCancellationToken);
+                new CancellationTokensManager() :
+                new LinkedCancellationTokensManager(schedulerCancellationToken);
         }
 
         /// <summary>

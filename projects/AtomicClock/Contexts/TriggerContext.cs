@@ -28,9 +28,6 @@ namespace AtomicClock.Contexts
         /// <param name="taskFactory">
         /// The task factory.
         /// </param>
-        /// <param name="taskPool">
-        /// The task pool.
-        /// </param>
         internal TriggerContext(CancellationToken triggerCancellationToken, ITaskFactory taskFactory)
         {
             ArgumentAssert.NotNull(nameof(taskFactory), taskFactory);

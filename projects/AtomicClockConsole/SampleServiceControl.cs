@@ -120,7 +120,7 @@ namespace AtomicClock.WinService
             {
                 this.jobScheduler = AtomicClockManager.CreateScheduler(10);
                 AtomicClock.Services.LogManager.LogAdapter += OnLogAdapter;
-                AtomicClock.Services.MetricManager.MetricAapter += OnMetricAdapter;
+                AtomicClock.Services.MetricManager.MetricAdapter += OnMetricAdapter;
             }
             catch (Exception ex)
             {

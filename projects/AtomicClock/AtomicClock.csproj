@@ -21,10 +21,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\AtomicClock.XML</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>AtomicClock.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,8 +33,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AtomicClock.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DocumentationFile>bin\Release\AtomicClock.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,11 +52,11 @@
     <Compile Include="Jobs\IJobInfo.cs" />
     <Compile Include="CancellationTokens\LinkedCancellationTokensManager.cs" />
     <Compile Include="Jobs\JobInfoValidator.cs" />
-    <Compile Include="QueueingPolicies\DisallowConcurrentQueuingPolicy.cs" />
-    <Compile Include="QueueingPolicies\QueuingPolicyActivator.cs" />
-    <Compile Include="QueueingPolicies\QueuingPolicyHelper.cs" />
-    <Compile Include="QueueingPolicies\QueuingPolicyInfo.cs" />
-    <Compile Include="QueueingPolicies\IQueuingPolicy.cs" />
+    <Compile Include="QueuingPolicies\DisallowConcurrentQueuingPolicy.cs" />
+    <Compile Include="QueuingPolicies\QueuingPolicyActivator.cs" />
+    <Compile Include="QueuingPolicies\QueuingPolicyHelper.cs" />
+    <Compile Include="QueuingPolicies\QueuingPolicyInfo.cs" />
+    <Compile Include="QueuingPolicies\IQueuingPolicy.cs" />
     <Compile Include="Jobs\ActionJob.cs" />
     <Compile Include="Jobs\ActionJobOptions.cs" />
     <Compile Include="Jobs\IJob.cs" />
@@ -95,7 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AtomicClock.nuspec" />
-    <None Include="AtomicClock.ruleset" />
     <None Include="packages.config" />
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>

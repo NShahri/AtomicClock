@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AtomicClock.QueueingPolicies
+namespace AtomicClock.QueuingPolicies
 {
     using System.Linq;
 

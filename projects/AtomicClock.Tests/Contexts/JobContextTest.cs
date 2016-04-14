@@ -14,14 +14,23 @@ namespace AtomicClock.Tests.Contexts
 
     using Xunit;
 
+    /// <summary>
+    /// Tests for JobContext
+    /// </summary>
     public class JobContextTest
     {
+        /// <summary>
+        /// Nulls the job scheduler test.
+        /// </summary>
         [Fact]
         public void NullJobSchedulerTest()
         {
             Assert.Throws<ArgumentNullException>(() => new JobContext(CancellationToken.None, null));
         }
 
+        /// <summary>
+        /// Cancelleds the token test.
+        /// </summary>
         [Fact]
         public void CancelledTokenTest()
         {

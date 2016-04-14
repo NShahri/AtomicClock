@@ -60,7 +60,7 @@ namespace AtomicClock.WinService
         /// The log level.
         /// </param>
         /// <returns>
-        /// The <see cref="LogLevel"/>.
+        /// The <see cref="NLog.LogLevel"/>.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// When there is no map defined between AtomicClock.LogLevel and NLog.LogLevel

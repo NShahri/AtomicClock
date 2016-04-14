@@ -12,7 +12,7 @@ namespace AtomicClock.Jobs
     using System;
     using System.Collections.Generic;
 
-    using AtomicClock.QueueingPolicies;
+    using AtomicClock.QueuingPolicies;
 
     /// <summary>
     /// The triggerInfo interface.

@@ -11,8 +11,14 @@ namespace AtomicClock.Tests.CancellationTokens
 
     using Xunit;
 
+    /// <summary>
+    /// TEsts for CancellationTokensManager
+    /// </summary>
     public class CancellationTokensManagerTest
     {
+        /// <summary>
+        /// Unregisters the unknown token.
+        /// </summary>
         [Fact]
         public void UnregisterUnknownToken()
         {
@@ -23,6 +29,9 @@ namespace AtomicClock.Tests.CancellationTokens
             tokenManager.UnregisterCancellationToken(CancellationToken.None);
         }
 
+        /// <summary>
+        /// Unregistes the known token.
+        /// </summary>
         [Fact]
         public void UnregisteKnownToken()
         {
@@ -33,6 +42,9 @@ namespace AtomicClock.Tests.CancellationTokens
             tokenManager.UnregisterCancellationToken(token);
         }
 
+        /// <summary>
+        /// Cancels the no token test.
+        /// </summary>
         [Fact]
         public void CancelNoTokenTest()
         {
@@ -42,6 +54,9 @@ namespace AtomicClock.Tests.CancellationTokens
             tokenManager.Cancel();
         }
 
+        /// <summary>
+        /// Cancels the one registered token test.
+        /// </summary>
         [Fact]
         public void CancelOneRegisteredTokenTest()
         {
@@ -52,6 +67,9 @@ namespace AtomicClock.Tests.CancellationTokens
             Assert.True(token.IsCancellationRequested);
         }
 
+        /// <summary>
+        /// Cancels the two registered tokens test.
+        /// </summary>
         [Fact]
         public void CancelTwoRegisteredTokensTest()
         {

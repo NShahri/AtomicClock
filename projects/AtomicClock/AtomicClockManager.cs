@@ -14,7 +14,7 @@ namespace AtomicClock
     /// <summary>
     /// The atomic clock manager.
     /// </summary>
-    public class AtomicClockManager
+    public static class AtomicClockManager
     {
         /// <summary>
         /// The create scheduler.

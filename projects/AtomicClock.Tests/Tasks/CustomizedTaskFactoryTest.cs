@@ -17,8 +17,14 @@ namespace AtomicClock.Tests.Tasks
 
     using Xunit;
 
+    /// <summary>
+    /// Tests for CustomizedTaskFactory
+    /// </summary>
     public class CustomizedTaskFactoryTest
     {
+        /// <summary>
+        /// Nulls the job scheduler test.
+        /// </summary>
         [Fact]
         public void NullJobSchedulerTest()
         {
@@ -28,6 +34,9 @@ namespace AtomicClock.Tests.Tasks
             Assert.Throws<ArgumentNullException>(() => new CustomizedTaskFactory(null, taskScheduler, tokenManager));
         }
 
+        /// <summary>
+        /// Nulls the task scheduler test.
+        /// </summary>
         [Fact]
         public void NullTaskSchedulerTest()
         {
@@ -37,6 +46,9 @@ namespace AtomicClock.Tests.Tasks
             Assert.Throws<ArgumentNullException>(() => new CustomizedTaskFactory(jobScheduler, null, tokenManager));
         }
 
+        /// <summary>
+        /// Nulls the token manager test.
+        /// </summary>
         [Fact]
         public void NullTokenManagerTest()
         {
@@ -46,6 +58,9 @@ namespace AtomicClock.Tests.Tasks
             Assert.Throws<ArgumentNullException>(() => new CustomizedTaskFactory(jobScheduler, taskScheduler, null));
         }
 
+        /// <summary>
+        /// Starts the null job information test.
+        /// </summary>
         [Fact]
         public void StartNullJobInfoTest()
         {
@@ -54,6 +69,9 @@ namespace AtomicClock.Tests.Tasks
             Assert.Throws<ArgumentNullException>(() => { taskFactory.StartNew(null); });
         }
 
+        /// <summary>
+        /// Registers the cancellation token test.
+        /// </summary>
         [Fact]
         public void RegisterCancellationTokenTest()
         {
@@ -65,6 +83,9 @@ namespace AtomicClock.Tests.Tasks
             tokenManager.Received().RegisterCancellationToken();
         }
 
+        /// <summary>
+        /// Unregisters the cancellation token test.
+        /// </summary>
         [Fact]
         public void UnregisterCancellationTokenTest()
         {
@@ -76,6 +97,9 @@ namespace AtomicClock.Tests.Tasks
             tokenManager.Received().UnregisterCancellationToken(CancellationToken.None);
         }
 
+        /// <summary>
+        /// Cancelleds the token test.
+        /// </summary>
         [Fact]
         public void CancelledTokenTest()
         {
@@ -88,6 +112,13 @@ namespace AtomicClock.Tests.Tasks
             taskFactory.StartNew(jobInfo);
         }
 
+        /// <summary>
+        /// Creates the task factory.
+        /// </summary>
+        /// <param name="taskScheduler">The task scheduler.</param>
+        /// <param name="jobScheduler">The job scheduler.</param>
+        /// <param name="token">The token.</param>
+        /// <returns>returns the instance of CustomizedTaskFactory</returns>
         private static ITaskFactory CreateTaskFactory(TaskScheduler taskScheduler = null, IJobScheduler jobScheduler = null, CancellationToken? token = null)
         {
             var tokenManager = Substitute.For<ICancellationTokensManager>();
@@ -97,6 +128,13 @@ namespace AtomicClock.Tests.Tasks
             return taskFactory;
         }
 
+        /// <summary>
+        /// Creates the task factory.
+        /// </summary>
+        /// <param name="taskScheduler">The task scheduler.</param>
+        /// <param name="jobScheduler">The job scheduler.</param>
+        /// <param name="tokenManager">The token manager.</param>
+        /// <returns>returns the instance of CustomizedTaskFactory</returns>
         private static ITaskFactory CreateTaskFactory(TaskScheduler taskScheduler = null, IJobScheduler jobScheduler = null, ICancellationTokensManager tokenManager = null)
         {
             var taskFactory = new CustomizedTaskFactory(jobScheduler ?? Substitute.For<IJobScheduler>(), taskScheduler ?? new NoneTaskScheduler(), tokenManager ?? Substitute.For<ICancellationTokensManager>());

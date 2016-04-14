@@ -12,7 +12,7 @@ namespace AtomicClock.Jobs
     using System.Collections.Generic;
     using System.Linq;
 
-    using AtomicClock.QueueingPolicies;
+    using AtomicClock.QueuingPolicies;
 
     /// <summary>
     /// The job info.
@@ -23,6 +23,13 @@ namespace AtomicClock.Jobs
     public class JobInfo<TJob> : IJobInfo
         where TJob : IJob
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JobInfo{TJob}"/> class.
+        /// </summary>
+        /// <param name="jobId">The job identifier.</param>
+        /// <param name="queuingPolicyInfo">The queuing policy information.</param>
+        /// <param name="executeOnCancellation">if set to <c>true</c> [execute on cancellation].</param>
+        /// <param name="jobOptions">The job options.</param>
         public JobInfo(
             string jobId = null,
             IEnumerable<QueuingPolicyInfo> queuingPolicyInfo = null,

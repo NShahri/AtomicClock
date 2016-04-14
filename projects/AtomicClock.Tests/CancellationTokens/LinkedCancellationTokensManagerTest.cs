@@ -11,8 +11,14 @@ namespace AtomicClock.Tests.CancellationTokens
 
     using Xunit;
 
+    /// <summary>
+    /// TEsts for LinkedCancellationTokensManager
+    /// </summary>
     public class LinkedCancellationTokensManagerTest
     {
+        /// <summary>
+        /// Canceleds the token test.
+        /// </summary>
         [Fact]
         public void CanceledTokenTest()
         {
@@ -21,6 +27,9 @@ namespace AtomicClock.Tests.CancellationTokens
             Assert.Throws<OperationCanceledException>(() => new LinkedCancellationTokensManager(tokenSource.Token));
         }
 
+        /// <summary>
+        /// Unregisters the unknown token.
+        /// </summary>
         public void UnregisterUnknownToken()
         {
             var tokenManager = new LinkedCancellationTokensManager(CancellationToken.None);
@@ -30,6 +39,9 @@ namespace AtomicClock.Tests.CancellationTokens
             tokenManager.UnregisterCancellationToken(CancellationToken.None);
         }
 
+        /// <summary>
+        /// Unregistes the known token.
+        /// </summary>
         [Fact]
         public void UnregisteKnownToken()
         {
@@ -40,6 +52,9 @@ namespace AtomicClock.Tests.CancellationTokens
             tokenManager.UnregisterCancellationToken(token);
         }
 
+        /// <summary>
+        /// Cancels the no token test.
+        /// </summary>
         [Fact]
         public void CancelNoTokenTest()
         {
@@ -49,6 +64,9 @@ namespace AtomicClock.Tests.CancellationTokens
             tokenManager.Cancel();
         }
 
+        /// <summary>
+        /// Cancels the one registered token test.
+        /// </summary>
         [Fact]
         public void CancelOneRegisteredTokenTest()
         {
@@ -59,6 +77,9 @@ namespace AtomicClock.Tests.CancellationTokens
             Assert.True(token.IsCancellationRequested);
         }
 
+        /// <summary>
+        /// Cancels the two registered tokens test.
+        /// </summary>
         [Fact]
         public void CancelTwoRegisteredTokensTest()
         {
@@ -71,6 +92,9 @@ namespace AtomicClock.Tests.CancellationTokens
             Assert.True(token2.IsCancellationRequested);
         }
 
+        /// <summary>
+        /// Cancels the linked cancelation token test.
+        /// </summary>
         [Fact]
         public void CancelLinkedCancelationTokenTest()
         {

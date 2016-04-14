@@ -26,12 +26,18 @@ namespace AtomicClock.Tests.Triggers
     /// </summary>
     public class TimerBasedTriggerTest
     {
+        /// <summary>
+        /// Nulls the function test.
+        /// </summary>
         [Fact]
         public void NullFuncTest()
         {
             Assert.Throws<ArgumentNullException>(() => new TimerBasedTrigger(null));
         }
 
+        /// <summary>
+        /// Cancelleds the token test.
+        /// </summary>
         [Fact]
         public void CancelledTokenTest()
         {
@@ -45,6 +51,9 @@ namespace AtomicClock.Tests.Triggers
             Assert.Throws<OperationCanceledException>(() => trigger.Schedule(jobInfo, context));
         }
 
+        /// <summary>
+        /// Nulls the job information test.
+        /// </summary>
         [Fact]
         public void NullJobInfoTest()
         {
@@ -55,6 +64,9 @@ namespace AtomicClock.Tests.Triggers
             Assert.Throws<ArgumentNullException>(() => trigger.Schedule(null, context));
         }
 
+        /// <summary>
+        /// Nulls the context test.
+        /// </summary>
         [Fact]
         public void NullContextTest()
         {

@@ -12,8 +12,14 @@ namespace AtomicClock.Tests.Jobs
 
     using Xunit;
 
+    /// <summary>
+    /// Tests for JobInfoValidator
+    /// </summary>
     public class JobInfoValidatorTest
     {
+        /// <summary>
+        /// Invalids the job type test.
+        /// </summary>
         [Fact]
         public void InvalidJobTypeTest()
         {
@@ -22,6 +28,9 @@ namespace AtomicClock.Tests.Jobs
             Assert.Throws<InvalidOperationException>(() => jobInfo.ValidateAndThrow());
         }
 
+        /// <summary>
+        /// Nulls the job type test.
+        /// </summary>
         [Fact]
         public void NullJobTypeTest()
         {

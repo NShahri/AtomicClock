@@ -14,7 +14,7 @@ namespace AtomicClock.Triggers
     using AtomicClock.Asserts;
     using AtomicClock.Contexts;
     using AtomicClock.Jobs;
-    using AtomicClock.QueueingPolicies;
+    using AtomicClock.QueuingPolicies;
     using AtomicClock.Services;
 
     /// <summary>

@@ -14,14 +14,23 @@ namespace AtomicClock.Tests.Contexts
 
     using Xunit;
 
+    /// <summary>
+    /// Tests for TriggerContext
+    /// </summary>
     public class TriggerContextTest
     {
+        /// <summary>
+        /// Nulls the task factory test.
+        /// </summary>
         [Fact]
         public void NullTaskFactoryTest()
         {
             Assert.Throws<ArgumentNullException>(() => new TriggerContext(CancellationToken.None, null));
         }
 
+        /// <summary>
+        /// Cancelleds the token test.
+        /// </summary>
         [Fact]
         public void CancelledTokenTest()
         {

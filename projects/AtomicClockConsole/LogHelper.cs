@@ -22,6 +22,9 @@ namespace AtomicClock.WinService
     /// </summary>
     public static class LogHelper
     {
+        /// <summary>
+        /// The NLOG to console.
+        /// </summary>
         public static void NLogToConsole()
         {
             var consoleTarget = new ColoredConsoleTarget();

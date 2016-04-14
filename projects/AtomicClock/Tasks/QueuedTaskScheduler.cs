@@ -1,12 +1,6 @@
-﻿//// I found this sample in
-////      http://blogs.msdn.com/b/pfxteam/archive/2010/04/09/9990424.aspx
-////      http://blogs.msdn.com/b/pfxteam/archive/2010/04/04/9990342.aspx
-////      https://code.msdn.microsoft.com/Samples-for-Parallel-b4b76364/sourcecode?fileId=44488&pathId=1895480579
-//// I think it is useful sample for prioritized task scheduler
-//// It also can help me to find answers of my questions about ThreadPool
-//// But at the moment this sample need more research and I need to customize it for my usage
-//// Nima
-//// THIS IS NOT USED IN THIS VERSION
+﻿// <copyright file="QueuedTaskScheduler.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
+// </copyright>
 
 
 ////--------------------------------------------------------------------------

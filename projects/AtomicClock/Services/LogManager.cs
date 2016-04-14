@@ -9,6 +9,9 @@ namespace AtomicClock.Services
     using System;
     using System.Diagnostics;
 
+    /// <summary>
+    /// The log manager.
+    /// </summary>
     public class LogManager
     {
         public static Action<LogLevel, string, string, Exception> LogAdapter { get; set; }

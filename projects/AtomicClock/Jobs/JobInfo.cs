@@ -38,14 +38,19 @@ namespace AtomicClock.Jobs
             }
         }
 
+        /// <inheritdoc/>
         public Type JobType => typeof(TJob);
 
+        /// <inheritdoc/>
         public dynamic JobOptions { get; }
 
+        /// <inheritdoc/>
         public IEnumerable<QueuingPolicyInfo> QueuingPolicies { get; }
 
+        /// <inheritdoc/>
         public string JobId { get; }
 
+        /// <inheritdoc/>
         public bool ExecuteOnCancellation { get; }
     }
 }

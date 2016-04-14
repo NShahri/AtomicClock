@@ -41,5 +41,4 @@ namespace AtomicClock.Tests.Contexts
             Assert.Throws<OperationCanceledException>(() => new TriggerContext(cancellationTokenSource.Token, taskFactory));
         }
     }
-
 }

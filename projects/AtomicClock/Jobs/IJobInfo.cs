@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IJobInfo.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the IJobInfo type.
@@ -12,7 +12,7 @@ namespace AtomicClock.Jobs
     using System;
     using System.Collections.Generic;
 
-    using AtomicClock.QueueingPolicies;
+    using AtomicClock.QueuingPolicies;
 
     /// <summary>
     /// The triggerInfo interface.

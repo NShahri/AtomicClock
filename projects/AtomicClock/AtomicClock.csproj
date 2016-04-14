@@ -21,6 +21,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\AtomicClock.XML</DocumentationFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +33,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DocumentationFile>bin\Release\AtomicClock.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,16 +47,16 @@
     <Compile Include="Asserts\ArgumentAssert.cs" />
     <Compile Include="AtomicClockManager.cs" />
     <Compile Include="CancellationTokens\ICancellationTokensManager.cs" />
-    <Compile Include="CancellationTokens\CancellationTokensesManager.cs" />
+    <Compile Include="CancellationTokens\CancellationTokensManager.cs" />
     <Compile Include="Jobs\ActionJobOptionsValidator.cs" />
     <Compile Include="Jobs\IJobInfo.cs" />
-    <Compile Include="CancellationTokens\LinkedCancellationTokensesManager.cs" />
+    <Compile Include="CancellationTokens\LinkedCancellationTokensManager.cs" />
     <Compile Include="Jobs\JobInfoValidator.cs" />
-    <Compile Include="QueueingPolicies\DisallowConcurrentQueuingPolicy.cs" />
-    <Compile Include="QueueingPolicies\QueuingPolicyActivator.cs" />
-    <Compile Include="QueueingPolicies\QueuingPolicyHelper.cs" />
-    <Compile Include="QueueingPolicies\QueuingPolicyInfo.cs" />
-    <Compile Include="QueueingPolicies\IQueuingPolicy.cs" />
+    <Compile Include="QueuingPolicies\DisallowConcurrentQueuingPolicy.cs" />
+    <Compile Include="QueuingPolicies\QueuingPolicyActivator.cs" />
+    <Compile Include="QueuingPolicies\QueuingPolicyHelper.cs" />
+    <Compile Include="QueuingPolicies\QueuingPolicyInfo.cs" />
+    <Compile Include="QueuingPolicies\IQueuingPolicy.cs" />
     <Compile Include="Jobs\ActionJob.cs" />
     <Compile Include="Jobs\ActionJobOptions.cs" />
     <Compile Include="Jobs\IJob.cs" />
@@ -62,6 +70,9 @@
     <Compile Include="Schedulers\JobScheduler.cs" />
     <Compile Include="Schedulers\JobSchedulerHelper.cs" />
     <Compile Include="Services\EventManager.cs" />
+    <Compile Include="Services\Events\IJobEventModel.cs" />
+    <Compile Include="Services\Events\JobEvents.cs" />
+    <Compile Include="Services\Events\JobEventModel.cs" />
     <Compile Include="Services\LoggerService.cs" />
     <Compile Include="Services\LogManager.cs" />
     <Compile Include="Services\LogLevel.cs" />
@@ -73,6 +84,7 @@
     <Compile Include="Tasks\CustomizedTaskScheduler.cs" />
     <Compile Include="Tasks\ITaskFactory.cs" />
     <Compile Include="Tasks\ITaskPool.cs" />
+    <Compile Include="TestAccess.cs" />
     <Compile Include="Triggers\ITrigger.cs" />
     <Compile Include="Triggers\ITriggerInfo.cs" />
     <Compile Include="Triggers\TriggerInfoValidator.cs" />
@@ -85,6 +97,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AtomicClock.nuspec" />
+    <None Include="packages.config" />
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

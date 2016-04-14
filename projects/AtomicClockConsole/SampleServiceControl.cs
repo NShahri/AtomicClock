@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="SampleServiceControl.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the SampleServiceControl type.
@@ -40,6 +40,7 @@ namespace AtomicClock.WinService
         {
             try
             {
+                LogHelper.NLogToConsole();
                 this.InitializeScheduler();
                 this.InitializeJobs();
                 this.jobScheduler.Start();
@@ -119,7 +120,7 @@ namespace AtomicClock.WinService
             {
                 this.jobScheduler = AtomicClockManager.CreateScheduler(10);
                 AtomicClock.Services.LogManager.LogAdapter += OnLogAdapter;
-                AtomicClock.Services.MetricManager.MetricAapter += OnMetricAdapter;
+                AtomicClock.Services.MetricManager.MetricAdapter += OnMetricAdapter;
             }
             catch (Exception ex)
             {

@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="QueuingPolicyHelper.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   The queuing policy helper.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AtomicClock.QueueingPolicies
+namespace AtomicClock.QueuingPolicies
 {
     using System.Linq;
 
@@ -43,8 +43,9 @@ namespace AtomicClock.QueueingPolicies
                 return true;
             }
 
-            return policies.Select(executionPolicy => executionPolicy.CreateInstance())
-                .All(policy => policy.CheckQueuingPolicy(jobInfo, context.TaskPool));
+            // return policies.Select(executionPolicy => executionPolicy.CreateInstance())
+            // .All(policy => policy.CheckQueuingPolicy(jobInfo, context.TaskPool));
+            return true;
         }
     }
 }

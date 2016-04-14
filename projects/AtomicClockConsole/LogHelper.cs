@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LogHelper.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the LogHelper type.
@@ -13,11 +13,46 @@ namespace AtomicClock.WinService
 
     using AtomicClock.Services;
 
+    using NLog.Conditions;
+    using NLog.Config;
+    using NLog.Targets;
+
     /// <summary>
     /// The log helper.
     /// </summary>
     public static class LogHelper
     {
+        /// <summary>
+        /// The NLOG to console.
+        /// </summary>
+        public static void NLogToConsole()
+        {
+            var consoleTarget = new ColoredConsoleTarget();
+
+            var highlightRule = new ConsoleRowHighlightingRule
+                {
+                    Condition = ConditionParser.ParseExpression("level == LogLevel.Info"),
+                    ForegroundColor = ConsoleOutputColor.Green
+                };
+
+            var highlightRule2 = new ConsoleRowHighlightingRule
+                {
+                    Condition = ConditionParser.ParseExpression("level == LogLevel.Debug"),
+                    ForegroundColor = ConsoleOutputColor.DarkGreen
+                };
+
+            consoleTarget.RowHighlightingRules.Add(highlightRule);
+            consoleTarget.RowHighlightingRules.Add(highlightRule2);
+
+            var config = new LoggingConfiguration();
+            config.AddTarget("console", consoleTarget);
+
+            var rule1 = new LoggingRule("*", NLog.LogLevel.Debug, consoleTarget);
+            config.LoggingRules.Add(rule1);
+
+            NLog.LogManager.Configuration = config;
+        }
+
         /// <summary>
         /// The to n log level.
         /// </summary>
@@ -25,7 +60,7 @@ namespace AtomicClock.WinService
         /// The log level.
         /// </param>
         /// <returns>
-        /// The <see cref="LogLevel"/>.
+        /// The <see cref="NLog.LogLevel"/>.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// When there is no map defined between AtomicClock.LogLevel and NLog.LogLevel

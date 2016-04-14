@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CancellationTokensesManager.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// <copyright file="CancellationTokensManager.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the SimpleCancellationTokenManager type.
@@ -16,7 +16,7 @@ namespace AtomicClock.CancellationTokens
     /// <summary>
     /// The collection cancellation token manager.
     /// </summary>
-    internal class CancellationTokensesManager : ICancellationTokensManager
+    internal class CancellationTokensManager : ICancellationTokensManager
     {
         /// <summary>
         /// The cancellation token sources.
@@ -42,10 +42,8 @@ namespace AtomicClock.CancellationTokens
                     {
                         lock (this.cancellationTokenSources)
                         {
-                            this.cancellationTokenSources.Remove(cancellationTokenSource);
+                            this.UnregisterCancellationTokenSource(cancellationTokenSource);
                         }
-
-                        cancellationTokenSource.Dispose();
                     });
 
             return cancellationTokenSource.Token;
@@ -75,8 +73,29 @@ namespace AtomicClock.CancellationTokens
         {
             lock (this.cancellationTokenSources)
             {
-                var tokenSource = this.cancellationTokenSources.Single(c => c.Token == token);
-                this.cancellationTokenSources.Remove(tokenSource);
+                var tokenSource = this.cancellationTokenSources.SingleOrDefault(c => c.Token == token);
+                this.UnregisterCancellationTokenSource(tokenSource);
+            }
+        }
+
+        /// <summary>
+        /// The unregister cancellation token source.
+        /// </summary>
+        /// <param name="tokenSource">
+        /// The token source.
+        /// </param>
+        protected void UnregisterCancellationTokenSource(CancellationTokenSource tokenSource)
+        {
+            // There is a chance user cancels the token which the task is going to unregister it.
+            // because task is completed
+            // DO NOTHING is a valid policy in this case
+            if (tokenSource == null)
+            {
+                return;
+            }
+
+            if (this.cancellationTokenSources.Remove(tokenSource))
+            {
                 tokenSource.Dispose();
             }
         }
@@ -90,6 +109,6 @@ namespace AtomicClock.CancellationTokens
         protected virtual CancellationTokenSource CreateCancellationTokenSource()
         {
             return new CancellationTokenSource();
-        } 
+        }
     }
 }

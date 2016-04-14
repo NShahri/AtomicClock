@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="RunEveryDayAt.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the RunEveryDayAt type.
@@ -41,8 +41,8 @@ namespace AtomicClock.Triggers
         /// <param name="runTimeUtc">
         /// The run time in UTC.
         /// </param>
-        public RunEveryDayAt(DateTime runTimeUtc) :
-            this(runTimeUtc, () => DateTime.Now)
+        public RunEveryDayAt(DateTime runTimeUtc)
+            : this(runTimeUtc, () => DateTime.Now)
         {
         }
 

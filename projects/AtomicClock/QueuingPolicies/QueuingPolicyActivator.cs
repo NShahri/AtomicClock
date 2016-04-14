@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="QueuingPolicyActivator.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   The queueing policy activator.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AtomicClock.QueueingPolicies
+namespace AtomicClock.QueuingPolicies
 {
     using System;
 

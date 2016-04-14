@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="triggerInfo.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// <copyright file="JobInfo.cs" company="Nima Shahri">
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the triggerInfo type.
@@ -12,7 +12,7 @@ namespace AtomicClock.Jobs
     using System.Collections.Generic;
     using System.Linq;
 
-    using AtomicClock.QueueingPolicies;
+    using AtomicClock.QueuingPolicies;
 
     /// <summary>
     /// The job info.
@@ -20,10 +20,21 @@ namespace AtomicClock.Jobs
     /// <typeparam name="TJob">
     /// the IJob implementation.
     /// </typeparam>
-    public class JobInfo<TJob> : IJobInfo 
+    public class JobInfo<TJob> : IJobInfo
         where TJob : IJob
     {
-        public JobInfo(string jobId = null, IEnumerable<QueuingPolicyInfo> queuingPolicyInfo = null, bool executeOnCancellation = false, dynamic jobOptions= null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JobInfo{TJob}"/> class.
+        /// </summary>
+        /// <param name="jobId">The job identifier.</param>
+        /// <param name="queuingPolicyInfo">The queuing policy information.</param>
+        /// <param name="executeOnCancellation">if set to <c>true</c> [execute on cancellation].</param>
+        /// <param name="jobOptions">The job options.</param>
+        public JobInfo(
+            string jobId = null,
+            IEnumerable<QueuingPolicyInfo> queuingPolicyInfo = null,
+            bool executeOnCancellation = false,
+            dynamic jobOptions = null)
         {
             this.JobOptions = jobOptions;
             this.JobId = jobId ?? Guid.NewGuid().ToString();
@@ -34,14 +45,19 @@ namespace AtomicClock.Jobs
             }
         }
 
+        /// <inheritdoc/>
         public Type JobType => typeof(TJob);
 
+        /// <inheritdoc/>
         public dynamic JobOptions { get; }
 
+        /// <inheritdoc/>
         public IEnumerable<QueuingPolicyInfo> QueuingPolicies { get; }
 
+        /// <inheritdoc/>
         public string JobId { get; }
 
+        /// <inheritdoc/>
         public bool ExecuteOnCancellation { get; }
     }
 }

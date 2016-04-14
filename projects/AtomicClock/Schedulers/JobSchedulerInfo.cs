@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="JobSchedulerInfo.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the JobSchedulerInfo type.
@@ -45,10 +45,10 @@ namespace AtomicClock.Schedulers
             this.JobInfo = jobInfo;
             this.Id = Guid.NewGuid();
 
-            this.TriggerCancellationTokensManager = new LinkedCancellationTokensesManager(schedulerCancellationToken);
-            this.JobCancellationTokensManager = this.JobInfo.ExecuteOnCancellation ? 
-                new CancellationTokensesManager() : 
-                new LinkedCancellationTokensesManager(schedulerCancellationToken);
+            this.TriggerCancellationTokensManager = new LinkedCancellationTokensManager(schedulerCancellationToken);
+            this.JobCancellationTokensManager = this.JobInfo.ExecuteOnCancellation ?
+                new CancellationTokensManager() :
+                new LinkedCancellationTokensManager(schedulerCancellationToken);
         }
 
         /// <summary>

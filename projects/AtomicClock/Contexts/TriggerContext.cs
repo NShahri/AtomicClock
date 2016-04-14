@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="TriggerContext.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the TriggerContext type.
@@ -28,19 +28,14 @@ namespace AtomicClock.Contexts
         /// <param name="taskFactory">
         /// The task factory.
         /// </param>
-        /// <param name="taskPool">
-        /// The task pool.
-        /// </param>
-        internal TriggerContext(CancellationToken triggerCancellationToken, ITaskFactory taskFactory, ITaskPool taskPool)
+        internal TriggerContext(CancellationToken triggerCancellationToken, ITaskFactory taskFactory)
         {
             ArgumentAssert.NotNull(nameof(taskFactory), taskFactory);
-            ArgumentAssert.NotNull(nameof(taskPool), taskPool);
             ArgumentAssert.NotNull(nameof(triggerCancellationToken), triggerCancellationToken);
             ArgumentAssert.NotCanceled(nameof(triggerCancellationToken), triggerCancellationToken);
 
             this.TriggerCancellationToken = triggerCancellationToken;
             this.TaskFactory = taskFactory;
-            this.TaskPool = taskPool;
         }
 
         /// <summary>
@@ -52,10 +47,5 @@ namespace AtomicClock.Contexts
         /// Gets the task factory.
         /// </summary>
         public ITaskFactory TaskFactory { get; private set; }
-
-        /// <summary>
-        /// Gets the task pool.
-        /// </summary>
-        public ITaskPool TaskPool { get; private set; }
     }
 }

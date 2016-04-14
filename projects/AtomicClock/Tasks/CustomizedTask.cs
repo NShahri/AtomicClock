@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CustomizedTask.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   The customized task.
@@ -36,11 +36,20 @@ namespace AtomicClock.Tasks
         /// <param name="jobContext">
         /// The job context.
         /// </param>
-        public CustomizedTask(IJobInfo jobInfo, JobContext jobContext) 
-            : base(() => RunJob(jobInfo, jobContext), jobContext.CancellationToken)
+        public CustomizedTask(IJobInfo jobInfo, JobContext jobContext)
+            : base(MakeAction(jobInfo, jobContext), jobContext.CancellationToken)
         {
             ArgumentAssert.NotNull(nameof(jobInfo), jobInfo);
             ArgumentAssert.NotNull(nameof(jobContext), jobContext);
+
+            EventManager.JobQueued(jobInfo, jobContext.JobScheduler);
+
+            jobContext.CancellationToken.Register(
+                () =>
+                    {
+                        EventManager.JobCancelled(jobInfo, jobContext.JobScheduler);
+                        Logger.Debug($"Job {jobInfo.JobId} has been cancelled.");
+                    });
 
             this.JobInfo = jobInfo;
         }
@@ -49,7 +58,35 @@ namespace AtomicClock.Tasks
         /// Gets the job info.
         /// </summary>
         public IJobInfo JobInfo { get; private set; }
-        
+
+        /// <summary>
+        /// Making action which will be used as task action.
+        /// This action measures the time which is in queue.
+        /// </summary>
+        /// <param name="jobInfo">
+        /// The job info.
+        /// </param>
+        /// <param name="jobContext">
+        /// The job context.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Action"/>.
+        /// </returns>
+        private static Action MakeAction(IJobInfo jobInfo, JobContext jobContext)
+        {
+            ArgumentAssert.NotNull(nameof(jobInfo), jobInfo);
+            ArgumentAssert.NotNull(nameof(jobContext), jobContext);
+
+            var queuingMetricTimer = MetricManager.StartTimer("queuing.duration", $"job.Id: {jobInfo.JobId}");
+
+            return
+                () =>
+                    {
+                        queuingMetricTimer.Dispose();
+                        RunJob(jobInfo, jobContext);
+                    };
+        }
+
         /// <summary>
         /// The run job.
         /// </summary>
@@ -61,15 +98,27 @@ namespace AtomicClock.Tasks
         /// </param>
         private static void RunJob(IJobInfo jobInfo, JobContext jobContext)
         {
-            var job = jobInfo.CreateInstance();
+            EventManager.JobRunning(jobInfo, jobContext.JobScheduler);
+
             try
             {
-                job.Execute(jobContext);
+                var job = jobInfo.CreateInstance();
+                using (MetricManager.StartTimer("job.duration", $"job.Id: {jobInfo.JobId}"))
+                {
+                    job.Execute(jobContext);
+                }
             }
             catch (Exception ex)
             {
-                // unexpected exception, IGNORE IT
-                Logger.Error("Job execution exception", ex);
+                // unexpected internal exception in user code
+                // Ignore this exception
+                EventManager.JobException(jobInfo, jobContext.JobScheduler);
+                Logger.Error($"An exception has occurred running {jobInfo.JobId}", ex);
+            }
+            finally
+            {
+                EventManager.JobCompleted(jobInfo, jobContext.JobScheduler);
+                Logger.Debug($"Job {jobInfo.JobId} has been completed.");
             }
         }
     }

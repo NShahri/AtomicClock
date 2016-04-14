@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="JobScheduler.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   Defines the JobScheduler type.
@@ -195,7 +195,7 @@ namespace AtomicClock.Schedulers
                     });
 
             var taskFactory = new CustomizedTaskFactory(this,  this.taskScheduler, jobSchedulerInfo.JobCancellationTokensManager);
-            var triggerContext = new TriggerContext(triggerCancellationToken, taskFactory, this.taskScheduler);
+            var triggerContext = new TriggerContext(triggerCancellationToken, taskFactory);
 
             trigger.Schedule(jobSchedulerInfo.JobInfo, triggerContext);
         }

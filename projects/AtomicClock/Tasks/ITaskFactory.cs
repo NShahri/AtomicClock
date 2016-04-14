@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ITaskFactory.cs" company="Nima Shahri">
-//   Copyright ©2016. All rights reserved.
+// Copyright (c) Nima Shahri. All rights reserved.
 // </copyright>
 // <summary>
 //   The TaskFactory interface.
@@ -24,9 +24,6 @@ namespace AtomicClock.Tasks
         /// <param name="jobInfo">
         /// The job Info.
         /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
-        Task StartNew(IJobInfo jobInfo);
+        void StartNew(IJobInfo jobInfo);
     }
 }
